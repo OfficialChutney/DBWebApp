@@ -4,6 +4,7 @@
     {
         public string Name { get; set; } = null;
         public string Message { get; set; } = null!;
+        public DateTime timestamp { get; set; } = DateTime.UtcNow;
 
     }
 }

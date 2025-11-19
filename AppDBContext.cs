@@ -29,7 +29,8 @@ namespace DBWebApp
             var message = new ChatMessage
             {
                 Message = dto.Message,
-                Name = dto.Name
+                Name = dto.Name,
+                time = dto.timestamp
             };
 
             await Messages.AddAsync(message);
@@ -40,14 +41,18 @@ namespace DBWebApp
         {
             List<MessageDTO> messages = new List<MessageDTO>();
 
-            foreach (ChatMessage msg in Messages.OrderByDescending(m => m.time))
+            await Task.Run(() =>
             {
-                messages.Add(new MessageDTO
+                foreach (ChatMessage msg in Messages.OrderByDescending(m => m.time))
                 {
-                    Message = msg.Message,
-                    Name = msg.Name
-                });
-            }
+                    messages.Add(new MessageDTO
+                    {
+                        Message = msg.Message,
+                        Name = msg.Name,
+                        timestamp = msg.time
+                    });
+                }
+            });
 
             return messages;
         }

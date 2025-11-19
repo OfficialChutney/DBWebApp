@@ -13,9 +13,17 @@ namespace DBWebApp
         }
 
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateMessage([FromBody] MessageDTO messageDTO)
+        [HttpGet("create")]
+        public async Task<IActionResult> CreateMessage(string name, string message)
         {
+            Console.WriteLine("Created");
+
+            var messageDTO = new MessageDTO
+            {
+                Name = name,
+                Message = message
+            };
+
             await dbContext.AddMessage(messageDTO);
             return Ok(messageDTO);
         }
@@ -23,6 +31,7 @@ namespace DBWebApp
         [HttpGet("list")]
         public async Task<ActionResult<List<MessageDTO>>> GetMessages()
         {
+            Console.WriteLine("Sending list");
             var messages = await dbContext.GetMessages();
             return Ok(messages);
         }
